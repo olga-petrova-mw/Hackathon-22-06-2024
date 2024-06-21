@@ -19,7 +19,7 @@ Future<void> _configureAmplify() async {
         AmplifyAuthCognito(),
         AmplifyAPI(
           options: APIPluginOptions(
-            modelProvider: ModelProvider.instance,
+            //modelProvider: ModelProvider.instance,
           ),
         ),
       ],
