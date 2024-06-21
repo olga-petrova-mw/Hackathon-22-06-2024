@@ -13,7 +13,6 @@ const schema = a.schema({
       description: a.string(),
       numberOfSeats: a.integer(),
     })
-    .authorization((allow) => [allow.publicApiKey()]),
 });
 
 export type Schema = ClientSchema<typeof schema>;
