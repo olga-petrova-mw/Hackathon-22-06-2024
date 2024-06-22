@@ -1,5 +1,6 @@
+
+
 import 'package:amplify_api/amplify_api.dart';
-import 'package:amplify_auth_cognito/amplify_auth_cognito.dart';
 import 'package:amplify_flutter/amplify_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:myapp/models/ModelProvider.dart';
@@ -16,7 +17,6 @@ Future<void> _configureAmplify() async {
   try {
     await Amplify.addPlugins(
       [
-        AmplifyAuthCognito(),
         AmplifyAPI(
           options: APIPluginOptions(
             modelProvider: ModelProvider.instance,
@@ -60,7 +60,33 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   
-  List<ToDoItem> toDoItems = [ToDoItem(title: 'First ToDo', description: 'lalala', state: ToDoItemState.notStarted)];
+
+
+  List<ToDoItem> _toDoItems = [];
+
+  @override
+  void initState() {
+    super.initState();
+    _refreshTodos();
+  }
+
+Future<void> _refreshTodos() async {
+  try {
+    final request = ModelQueries.list(ToDoItem.classType);
+    final response = await Amplify.API.query(request: request).response;
+
+    final todos = response.data?.items;
+    if (response.hasErrors) {
+      safePrint('errors: ${response.errors}');
+      return;
+    }
+    setState(() {
+      _toDoItems = todos!.whereType<ToDoItem>().toList();
+    });
+  } on ApiException catch (e) {
+    safePrint('Query failed: $e');
+  }
+}
 
   void _incrementCounter() {
     setState(() {
@@ -75,9 +101,16 @@ class _MyHomePageState extends State<MyHomePage> {
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: Text(widget.title),
       ),
-      body: Center(
+      body: _toDoItems.isEmpty == true
+        ? const Center(
+            child: Text(
+              "The list is empty.\nAdd some items by clicking the floating action button.",
+              textAlign: TextAlign.center,
+            ),
+          )
+        : Center(
         child: ListView(
-          children: toDoItems.map((ToDoItem item) {
+          children: _toDoItems.map((ToDoItem item) {
             return ListTile(
               title: Text(item.title!),
               onTap: () => Navigator.push(
@@ -95,4 +128,5 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
     );
   }
+
 }
