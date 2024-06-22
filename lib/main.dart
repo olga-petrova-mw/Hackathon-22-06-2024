@@ -27,7 +27,7 @@ Future<void> _configureAmplify() async {
     await Amplify.configure(amplifyConfig);
     safePrint('Successfully configured');
   } on Exception catch (e) {
-    safePrint('Error configuring Amplify: $e');
+    safePrint('Error configuring Amplify: $e ');
   }
 }
 
