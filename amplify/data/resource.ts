@@ -11,7 +11,12 @@ const schema = a.schema({
     .model({
       title: a.string(),
       description: a.string(),
-      state: a.STATE(),
+      state: a.enum([
+        'notStarted',
+        'inProgress',
+        'onHold',
+        'done'
+      ]),
     })
     .authorization(allow => [allow.publicApiKey()])
 });
