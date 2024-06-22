@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'models/to_do_item.dart';
+import 'package:myapp/models/ToDoItem.dart';
 
 class ItemPage extends StatelessWidget {
   final ToDoItem item;

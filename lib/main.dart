@@ -2,9 +2,9 @@ import 'package:amplify_api/amplify_api.dart';
 import 'package:amplify_auth_cognito/amplify_auth_cognito.dart';
 import 'package:amplify_flutter/amplify_flutter.dart';
 import 'package:flutter/material.dart';
+import 'package:myapp/models/ModelProvider.dart';
 
 import 'amplifyconfiguration.dart';
-import 'models/to_do_item.dart';
 import 'item_page.dart';
 
 void main() {
@@ -19,7 +19,7 @@ Future<void> _configureAmplify() async {
         AmplifyAuthCognito(),
         AmplifyAPI(
           options: APIPluginOptions(
-            //modelProvider: ModelProvider.instance,
+            modelProvider: ModelProvider.instance,
           ),
         ),
       ],
@@ -60,7 +60,7 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   
-  List<ToDoItem> toDoItems = [ToDoItem(title: 'First ToDo', description: 'lalala', state: STATE.done)];
+  List<ToDoItem> toDoItems = [ToDoItem(title: 'First ToDo', description: 'lalala', state: ToDoItemState.notStarted)];
 
   void _incrementCounter() {
     setState(() {
@@ -79,7 +79,7 @@ class _MyHomePageState extends State<MyHomePage> {
         child: ListView(
           children: toDoItems.map((ToDoItem item) {
             return ListTile(
-              title: Text(item.title),
+              title: Text(item.title!),
               onTap: () => Navigator.push(
                 context,
                 MaterialPageRoute(builder: (context) => ItemPage(key: ValueKey(item.hashCode), item: item)),
