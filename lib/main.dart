@@ -2,6 +2,7 @@ import 'package:amplify_api/amplify_api.dart';
 import 'package:amplify_auth_cognito/amplify_auth_cognito.dart';
 import 'package:amplify_flutter/amplify_flutter.dart';
 import 'package:flutter/material.dart';
+import 'package:myapp/models/ModelProvider.dart';
 
 import 'amplifyconfiguration.dart';
 import 'models/to_do_item.dart';
@@ -19,7 +20,7 @@ Future<void> _configureAmplify() async {
         AmplifyAuthCognito(),
         AmplifyAPI(
           options: APIPluginOptions(
-            //modelProvider: ModelProvider.instance,
+            modelProvider: ModelProvider.instance,
           ),
         ),
       ],
@@ -60,7 +61,7 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   
-  List<ToDoItem> toDoItems = [ToDoItem(title: 'First ToDo', description: 'lalala', state: STATE.done)];
+  List<ToDoItem> toDoItems = [ToDoItem(title: 'First ToDo', description: 'lalala', state: Enum.values[0])];
 
   void _incrementCounter() {
     setState(() {
