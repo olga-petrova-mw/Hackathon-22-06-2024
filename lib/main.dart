@@ -4,8 +4,8 @@ import 'package:amplify_flutter/amplify_flutter.dart';
 import 'package:flutter/material.dart';
 
 import 'amplifyconfiguration.dart';
-import 'models/room.dart';
-import 'room_page.dart';
+import 'models/to_do_item.dart';
+import 'item_page.dart';
 
 void main() {
   _configureAmplify();
@@ -37,12 +37,12 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Kraftwerk App',
+      title: 'Our Kraftwerk ToDos',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepOrange),
         useMaterial3: true,
       ),
-      home: const MyHomePage(title: 'Kraftwerk Räume'),
+      home: const MyHomePage(title: 'Kanban Tasks'),
     );
   }
 }
@@ -59,7 +59,8 @@ class MyHomePage extends StatefulWidget {
 
 
 class _MyHomePageState extends State<MyHomePage> {
-  List<Room> rooms = [Room(name: 'Wendelstein', description: 'Ist es ein Raum? Ist es ein Berg?', numberOfSeats: 6)];
+  
+  List<ToDoItem> toDoItems = [ToDoItem(title: 'First ToDo', description: 'lalala', state: STATE.done)];
 
   void _incrementCounter() {
     setState(() {
@@ -76,12 +77,12 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       body: Center(
         child: ListView(
-          children: rooms.map((room) {
+          children: toDoItems.map((ToDoItem item) {
             return ListTile(
-              title: Text(room.name),
+              title: Text(item.title),
               onTap: () => Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => RoomPage(key: ValueKey(room.hashCode), room: room)),
+                MaterialPageRoute(builder: (context) => ItemPage(key: ValueKey(item.hashCode), item: item)),
               ),
             );
           }).toList(),	
@@ -89,7 +90,7 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: _incrementCounter,
-        tooltip: 'Add room',
+        tooltip: 'Add item',
         child: const Icon(Icons.add),
       ),
     );

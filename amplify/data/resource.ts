@@ -11,17 +11,12 @@ const schema = a.schema({
     .model({
       title: a.string(),
       description: a.string(),
-      status: a.STATUS(),
+      state: a.STATE(),
     })
     .authorization(allow => [allow.publicApiKey()])
 });
 
-enum STATUS {
-  notStarted,
-  inProgress,
-  onHold,
-  done,
-}
+
 // Used for code completion / highlighting when making requests from frontend
 export type Schema = ClientSchema<typeof schema>;
 
